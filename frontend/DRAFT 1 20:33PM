@@ -170,7 +170,7 @@ if uploaded_files:
         mermaid_chart(example_mermaid_code, height=400) # Use the custom component
 
         st.markdown("---")
-        st.write("Developed by Elliot and Miranda with ❤️ Streamlit")
+        st.write("Developed by Anthony, Guglielmo, Filip, Piotr, Leonardo, Gururaj, Elliot and Miranda with ❤️ Streamlit")
 
 else:
     st.info("Upload protocol documents in the sidebar to begin comparison.")
