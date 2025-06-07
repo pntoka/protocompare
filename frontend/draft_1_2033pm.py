@@ -1,6 +1,6 @@
 import streamlit as st # Corrected: 'import' was missing 'i'
 from docx import Document
-import PyPDF2 # Using PyPDF2 for PDF text extraction
+import pypdf
 from io import BytesIO
 import os
 
