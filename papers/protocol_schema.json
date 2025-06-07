@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Experimental Protocol Step",
+    "type": "object",
+    "required": ["step_number", "step_type", "input", "output", "action", "parameter"],
+    "properties": {
+      "step_number": {
+        "type": "integer",
+        "description": "The sequential number of the step in the procedure"
+      },
+      "step_type": {
+        "type": "string",
+        "description": "Type of the step, e.g., filtration, centrifugation, heating"
+      },
+      "input": {
+        "type": "string",
+        "description": "Materials or substances used in this step"
+      },
+      "output": {
+        "type": "string",
+        "description": "Result or product obtained from this step"
+      },
+      "action": {
+        "type": "string",
+        "description": "The core operation performed, e.g., heat, filter, mix"
+      },
+      "parameter": {
+        "type": "object",
+        "description": "Key-value pairs describing step-specific parameters",
+        "additionalProperties": {
+          "type": ["string", "number", "boolean"]
+        }
+      }
+    }
+  }
+  
