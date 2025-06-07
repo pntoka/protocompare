@@ -1,0 +1,391 @@
+[
+    {
+        "doi": "10.1016/j.napere.2025.100133",
+        "text": "The concentration of genomic DNA was adjusted to 50 ng/µL to serve as a template for the Polymerase Chain Reaction (PCR). DNA fragments encompassing the ITS-1, 5.8S rDNA, and ITS-2 regions were amplified utilizing the universal forward primer ITS-1 (5′-TCCGTAGGTGAACCTGCGG-3′) and reverse primer ITS-4 (5′-TCCTCCGCTTATTGATATGC-3′), following the methodology described by White et al., (1990). The PCR was performed using TaqTM mix polymerase in a 25 µL DNA mixture within a thermocycler. The process began with an initial denaturation at 95 °C for 5 minutes, followed by 30 cycles of denaturation at 94 °C for 1 minute, annealing at 56 °C for 30 seconds, extension at 68 °C for 1 minute, and a final extension at 68 °C for 7 minutes. Electrophoresis was carried out on a 1.2 % agarose gel alongside a 1 kb plus ladder for the PCR products. Gel red dye was used for DNA staining, and 1 × Tris Boric EDTA (TBE) was the running buffer. The PCR products were examined through a gel documentation system, with any unused PCR product being stored at −80 ℃. The PCR products were sequenced by inqaba biotech™ using Sanger sequencing method. The consensus sequence of the 5.8 s gene was matched with reference sequences in the NCBI- Genbank nucleotide database using the BLAST tool to identify and obtain highly similar sequences with their respective accession number. Phylogenetic analysis was executed using the Maximum Likelihood method in MEGAX Version 10.0.5 (Tamura et al., 2007), with a bootstrap test of 1000 replications. Paecilomyces fumosoroseus (BV211293) served as an out-group for rooting the phylogenetic tree.",
+        "protocol": [
+            {
+              "step_number": 1,
+              "step_type": "sample preparation",
+              "input": "Genomic DNA",
+              "output": "Genomic DNA at 50 ng/µL concentration",
+              "action": "adjust concentration",
+              "parameter": {
+                "final_concentration": "50 ng/µL"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "amplification",
+              "input": "Genomic DNA (50 ng/µL), primers ITS-1 and ITS-4, TaqTM mix polymerase",
+              "output": "Amplified DNA fragments (ITS-1, 5.8S rDNA, ITS-2)",
+              "action": "amplify",
+              "parameter": {
+                "reaction_volume": "25 µL",
+                "initial_denaturation": "95 °C for 5 minutes",
+                "cycles": 30,
+                "denaturation": "94 °C for 1 minute",
+                "annealing": "56 °C for 30 seconds",
+                "extension": "68 °C for 1 minute",
+                "final_extension": "68 °C for 7 minutes"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "electrophoresis",
+              "input": "PCR products, 1 kb plus ladder",
+              "output": "DNA band separation on gel",
+              "action": "electrophorese",
+              "parameter": {
+                "gel_concentration": "1.2%",
+                "dye": "Gel red",
+                "buffer": "1× TBE",
+                "method": "agarose gel electrophoresis"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "imaging",
+              "input": "Stained gel with DNA bands",
+              "output": "Digital image of DNA bands",
+              "action": "visualize",
+              "parameter": {
+                "equipment": "Gel documentation system"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "storage",
+              "input": "Unused PCR products",
+              "output": "Frozen PCR products",
+              "action": "store",
+              "parameter": {
+                "temperature": "-80 °C"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "sequencing",
+              "input": "PCR products",
+              "output": "DNA sequences",
+              "action": "sequence",
+              "parameter": {
+                "method": "Sanger sequencing",
+                "provider": "inqaba biotech™"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "bioinformatics",
+              "input": "Consensus DNA sequence (5.8S gene)",
+              "output": "Matched sequences with accession numbers",
+              "action": "search",
+              "parameter": {
+                "tool": "BLAST",
+                "database": "NCBI GenBank"
+              }
+            },
+            {
+              "step_number": 8,
+              "step_type": "phylogenetic analysis",
+              "input": "BLAST results and consensus sequence",
+              "output": "Phylogenetic tree",
+              "action": "analyze",
+              "parameter": {
+                "method": "Maximum Likelihood",
+                "software": "MEGAX Version 10.0.5",
+                "bootstrap_replications": 1000,
+                "out_group": "Paecilomyces fumosoroseus (BV211293)"
+              }
+            }
+          ]
+          
+    },
+    {
+        "doi": "10.1016/j.biocontrol.2016.07.005",
+        "text": "The adults obtained from the isofemale lines of each species was separately preserved in 95% ethanol, kept at −20 °C and used for DNA extraction. A single adult was crushed with micro pestle (1.5 ml) and the genomic DNA isolation involved the use of an animal kit M/s Qiagen, Germany, by following manufacturer’s protocol. Polymerase chain reactions involved the use of 2 μl DNA template, 3 μl (10×) Taq assay buffer, 1 μl dNTPs (each in 10 mM concentration), 1.5 μl forward and reverse primers (10 pmol/μl, 1 μl Taq Polymerase (1 U) and 20 μl of sterile distilled water. The primers used to amplify the CO-1 region were 5′-GGTCAACAAATCATAAAGATATTGG-3′ (forward) and 5′-TAAACTTCAGGGTGACCAAAAAATCA-3′ (reverse) (Rugman-Jones et al., 2010) and primers used for ITS-2 region were 5′-TGTGAACTGCAGGACACATG-3′ (forward) and 5′-GTCTTGCCTGCTCTGAG-3′ (reverse) (Stouthamer et al., 1999). Amplification involved a Biorad icycler (C-1000 Thermal Cycler, Biorad Laboratories, California) programmed to 95 °C for 5 min, followed by 34 cycles of 94 °C for 30 s, 53 °C for 30 s and 72 °C for one minute and a final extension at 72 °C for 10 min. Amplified products were separated on 1.2% agarose (ACROS) with a standard size. Gels were stained using ethidium bromide. The molecular standard was run along with the samples for reference. The PCR products were gel eluted with Qiagen gel clean up kit and direct sequenced through Applied Prism 310.",
+        "protocol": [
+            {
+              "step_number": 1,
+              "step_type": "preservation",
+              "input": "Adults from isofemale lines",
+              "output": "Preserved adult specimens",
+              "action": "preserve",
+              "parameter": {
+                "preservative": "95% ethanol",
+                "temperature": "-20 °C"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "sample preparation",
+              "input": "Single preserved adult",
+              "output": "Crushed tissue",
+              "action": "crush",
+              "parameter": {
+                "tool": "micro pestle",
+                "tube_volume": "1.5 mL"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "DNA extraction",
+              "input": "Crushed tissue",
+              "output": "Genomic DNA",
+              "action": "extract",
+              "parameter": {
+                "kit": "Qiagen animal DNA extraction kit",
+                "protocol": "manufacturer’s instructions"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "PCR setup",
+              "input": "Genomic DNA",
+              "output": "PCR reaction mixture",
+              "action": "prepare",
+              "parameter": {
+                "DNA_template": "2 μL",
+                "Taq_buffer": "3 μL (10×)",
+                "dNTPs": "1 μL (10 mM each)",
+                "primers": "1.5 μL forward and 1.5 μL reverse (10 pmol/μL)",
+                "Taq_polymerase": "1 μL (1 U)",
+                "sterile_water": "20 μL"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "PCR amplification",
+              "input": "PCR reaction mixture",
+              "output": "Amplified DNA products",
+              "action": "amplify",
+              "parameter": {
+                "instrument": "Biorad C-1000 Thermal Cycler",
+                "initial_denaturation": "95 °C for 5 min",
+                "cycles": 34,
+                "cycle_conditions": {
+                  "denaturation": "94 °C for 30 s",
+                  "annealing": "53 °C for 30 s",
+                  "extension": "72 °C for 1 min"
+                },
+                "final_extension": "72 °C for 10 min"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "gel electrophoresis",
+              "input": "PCR products",
+              "output": "Separated DNA bands",
+              "action": "run gel",
+              "parameter": {
+                "gel_concentration": "1.2% agarose",
+                "stain": "ethidium bromide",
+                "reference": "molecular size standard"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "DNA purification",
+              "input": "Gel-separated DNA bands",
+              "output": "Purified DNA",
+              "action": "gel elute",
+              "parameter": {
+                "kit": "Qiagen gel clean-up kit"
+              }
+            },
+            {
+              "step_number": 8,
+              "step_type": "DNA sequencing",
+              "input": "Purified DNA",
+              "output": "DNA sequence data",
+              "action": "sequence",
+              "parameter": {
+                "platform": "Applied Prism 310"
+              }
+            }
+          ]
+    },
+    {
+        "doi": "10.1093/nar/gkad1178",
+        "text": "HeLa cells (CCL-2) obtained from ATCC were grown on coverslips and treated for 1 hour with 50 nM CPT. Recovery was performed in growing media: DMEM containing 10% foetal bovine serum (FBS) and 5% Penicillin/Streptomycin. Cells were fixed in 4% formaldehyde in PBS for 15 min at room temperature; washed with PBS; permeabilised in 0.5% Triton X-100 in PBS for 15 min at 4 °C; and blocked in 5% BSA/PBS for 1 h at 37°C. To render the DNA–protein crosslinks more accessible to the antibody, the coverslips were incubated in 1% SDS/PBS at room temperature (RT) for 5 min, then washed five times with a wash buffer (0.1% BSA, 0.1% Triton X-100 in PBS) and twice with PBS. Incubation with TOP1cc primary antibody (Millipore Cat# MABE 1084, RRID AB_2756354) diluted at 1:250 in 2.5% BSA/PBS was performed for 1 hour at RT. Before subsequent incubation, coverslips were washed once with the wash buffer for 3 min with gentle shaking and twice with PBS. Incubation with another primary antibody can be performed at this step if needed. Coverslips were washed with PBS and incubated with secondary antibody (Thermo Fisher Scientific Cat# A-31570, RRID AB_2536180) and DAPI, both diluted at 1:500 in 2.5% BSA/PBS for 1 hour at room temperature. Coverslips were mounted onto slides using Fluoromount G (ThermoFisher). Images were taken using a Zeiss 710 LSM microscope utilising a Plan-apochromat 63x lens with a 1.4 NA and oil immersion. Images were collected sequentially to avoid any overlap between dyes whilst ensuring the same MBS filter set was maintained for all acquisitions. Images were gathered in 1024 × 1024 pixel format at approximately 55% Nyquist sampling, with full Nyquist sampling not being appropriate for this experiment. Images were acquired at 12-bit with 4× averaging being utilised to help with spurious noise within the images. Analysis was carried out using ImageJ Fiji and CellProfiler™. The pipeline used for TOP1cc quantification per cell in CellProfiler™ is provided in the source data. A Two-way ANOVA test was performed for the analysis.",
+        "protocol": [
+            {
+              "step_number": 1,
+              "step_type": "cell culture",
+              "input": "HeLa cells (CCL-2, ATCC)",
+              "output": "Cultured HeLa cells on coverslips",
+              "action": "grow",
+              "parameter": {
+                "substrate": "coverslips"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "treatment",
+              "input": "Cultured HeLa cells",
+              "output": "CPT-treated cells",
+              "action": "treat",
+              "parameter": {
+                "compound": "CPT",
+                "concentration": "50 nM",
+                "duration": "1 hour"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "recovery",
+              "input": "CPT-treated cells",
+              "output": "Recovered cells",
+              "action": "incubate in media",
+              "parameter": {
+                "medium": "DMEM",
+                "supplements": "10% FBS, 5% Penicillin/Streptomycin"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "fixation",
+              "input": "Recovered cells",
+              "output": "Fixed cells",
+              "action": "fix",
+              "parameter": {
+                "reagent": "4% formaldehyde in PBS",
+                "duration": "15 min",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "permeabilization",
+              "input": "Fixed cells",
+              "output": "Permeabilized cells",
+              "action": "permeabilize",
+              "parameter": {
+                "reagent": "0.5% Triton X-100 in PBS",
+                "duration": "15 min",
+                "temperature": "4 °C"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "blocking",
+              "input": "Permeabilized cells",
+              "output": "Blocked cells",
+              "action": "block",
+              "parameter": {
+                "blocking_solution": "5% BSA in PBS",
+                "duration": "1 hour",
+                "temperature": "37 °C"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "antigen unmasking",
+              "input": "Blocked cells",
+              "output": "Cells with accessible DNA–protein crosslinks",
+              "action": "incubate",
+              "parameter": {
+                "solution": "1% SDS in PBS",
+                "duration": "5 min",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 8,
+              "step_type": "washing",
+              "input": "Unmasked cells",
+              "output": "Washed cells",
+              "action": "wash",
+              "parameter": {
+                "wash_buffer": "0.1% BSA, 0.1% Triton X-100 in PBS",
+                "repeats": "5x wash buffer, 2x PBS"
+              }
+            },
+            {
+              "step_number": 9,
+              "step_type": "primary antibody incubation",
+              "input": "Washed cells",
+              "output": "Primary antibody-labeled cells",
+              "action": "incubate",
+              "parameter": {
+                "antibody": "TOP1cc (Millipore MABE1084)",
+                "dilution": "1:250",
+                "buffer": "2.5% BSA in PBS",
+                "duration": "1 hour",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 10,
+              "step_type": "washing",
+              "input": "Primary antibody-labeled cells",
+              "output": "Washed cells",
+              "action": "wash",
+              "parameter": {
+                "wash_buffer": "wash buffer (0.1% BSA, 0.1% Triton X-100 in PBS)",
+                "sequence": "1x wash buffer (3 min, gentle shaking), 2x PBS"
+              }
+            },
+            {
+              "step_number": 11,
+              "step_type": "secondary antibody and nuclear staining",
+              "input": "Washed cells",
+              "output": "Fluorescently labeled cells",
+              "action": "incubate",
+              "parameter": {
+                "antibody": "Thermo Fisher A-31570",
+                "dilution": "1:500",
+                "nuclear_stain": "DAPI",
+                "buffer": "2.5% BSA in PBS",
+                "duration": "1 hour",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 12,
+              "step_type": "mounting",
+              "input": "Labeled coverslips",
+              "output": "Mounted slides",
+              "action": "mount",
+              "parameter": {
+                "mounting_medium": "Fluoromount G"
+              }
+            },
+            {
+              "step_number": 13,
+              "step_type": "imaging",
+              "input": "Mounted slides",
+              "output": "Microscopy images",
+              "action": "acquire image",
+              "parameter": {
+                "microscope": "Zeiss 710 LSM",
+                "objective": "63x Plan-apochromat, NA 1.4, oil immersion",
+                "pixel_resolution": "1024 × 1024",
+                "sampling": "∼55% Nyquist",
+                "bit_depth": "12-bit",
+                "averaging": "4×"
+              }
+            },
+            {
+              "step_number": 14,
+              "step_type": "image analysis",
+              "input": "Microscopy images",
+              "output": "Quantified TOP1cc signal per cell",
+              "action": "analyze",
+              "parameter": {
+                "software": ["ImageJ Fiji", "CellProfiler"],
+                "analysis_pipeline": "TOP1cc quantification per cell"
+              }
+            },
+            {
+              "step_number": 15,
+              "step_type": "statistical analysis",
+              "input": "Quantitative data",
+              "output": "Statistical results",
+              "action": "analyze",
+              "parameter": {
+                "test": "Two-way ANOVA"
+              }
+            }
+          ]
+    }
+]
