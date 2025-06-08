@@ -1,12 +1,101 @@
 import streamlit as st 
 from docx import Document
 from pypdf import PdfReader
-from io import BytesIO
+from io import BytesIO, StringIO
+import pandas as pd
 import os
 from PIL import Image
 import base64
 import requests
 import json
+
+def unpack_json_protocol_list(json_file_content):
+    protocol_titles = []
+    protocol_step_list = []
+    
+    try:
+        if isinstance(json_file_content, list):
+            for protocol in json_file_content:
+                protocol_df = pd.DataFrame(columns=["Step Number", "Type",
+                                        "Input", "Output",
+                                        "Action", "Parameters"])
+                protocol_titles.append(protocol['doi'])
+                protocol_steps = protocol['protocol']
+                print("Processing a list of protocol steps:")
+                for i, protocol_step_data in enumerate(protocol_steps):
+                    print(f"\n--- Step {i+1} ---")
+                    protocol_df.loc[len(protocol_df)] = [protocol_step_data["step_number"],
+                                    protocol_step_data["step_type"],
+                                    protocol_step_data["input"],
+                                    protocol_step_data["output"],
+                                    protocol_step_data["action"],
+                                    protocol_step_data["parameter"]]
+                protocol_step_list.append(protocol_df)
+
+        else:
+            print("Processing a single protocol step:")
+            protocol_step_data = json_file_content
+            print("Step Number:", protocol_step_data["step_number"])
+            print("Step Type:", protocol_step_data["step_type"])
+            print("Input:", protocol_step_data["input"])
+            print("Output:", protocol_step_data["output"])
+            print("Action:", protocol_step_data["action"])
+            print("Parameters:", protocol_step_data["parameter"])
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from '{json_file_content}'. Check if the file is valid JSON.")
+    except KeyError as e:
+        print(f"Error: Missing required key in JSON data: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+    finally:
+        print(protocol_df.head())
+        return protocol_step_list, protocol_titles
+
+# --- Main Streamlit Application ---
+# st.set_page_config() MUST be the first Streamlit command called
+st.set_page_config(
+    page_title="Protocompare - Protocol Comparator", # Changed title slightly for clarity
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# --- Custom CSS for Styling ---
+st.markdown(
+    """
+    <style>
+    /* Ensure the entire page background is consistent and pure white */
+    html, body, .stApp, 
+    [data-testid="stAppViewContainer"], 
+    [data-testid="stBlock"], 
+    .reportview-container, 
+    .main,
+    .st-emotion-cache-1ldf3gq { /* Targeting sidebar too */
+        background-color: #FFFFFF !important; /* Pure white, forced */
+        background: #FFFFFF !important; /* Ensuring all background properties are overridden */
+        color: #333333; /* Darker text for readability */
+    }
+
+    /* Light blue box for the file uploader area (in sidebar) */
+    [data-testid="stFileUploader"] {
+        background-color: #E3F2FD; /* Soft sky blue */
+        border-radius: 12px; /* Slightly more rounded corners */
+        padding: 25px; /* More padding */
+        border: 1px solid #BBDEFB; /* Slightly darker subtle blue border */
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.15); /* Slightly more prominent soft shadow */
+    }
+    
+    /* Adjust title alignment and color */
+    .st-emotion-cache-dv62a9 { /* Common class for main title */
+        text-align: center;
+        color: #2C3E50; /* A dark, professional blue-grey for main titles */
+    }
+    h1, h2, h3, h4, h5, h6 { /* General heading styles */
+        color: #2C3E50;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- Custom Streamlit Component for Mermaid.js ---
 # This allows us to render Mermaid diagrams directly in Streamlit.
@@ -89,12 +178,6 @@ def convert_mermaid_to_pdf(mermaid_code: str) -> bytes:
 
 
 # --- Main Streamlit Application ---
-st.set_page_config(
-    page_title="Protocol Comparator",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
 st.title("🔬 Protocompare")
 st.markdown("""
 Welcome to the *in silico* Protocol Comparator! Upload your research protocols to compare their content, steps, and key parameters.
@@ -123,6 +206,23 @@ uploaded_files = st.sidebar.file_uploader(
     type=["txt", "pdf", "docx"],
     accept_multiple_files=True
 )
+
+#upload json file
+uploaded_file = st.sidebar.file_uploader("Choose a file (JSON)", type=["json"])
+if uploaded_file is not None:
+    # To read file as bytes:
+    bytes_data = uploaded_file.getvalue()
+    #st.write(bytes_data)
+
+    # To convert to a string based IO:
+    stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    stringio_to_json = json.loads(bytes_data)
+    protocol_step_list, protocol_titles = unpack_json_protocol_list(stringio_to_json)
+    protocol_index = 0
+    for protocol_title in protocol_titles:
+        st.write("Protocol: " + protocol_title)
+        st.dataframe(protocol_step_list[protocol_index], hide_index=True)
+        protocol_index = protocol_index + 1
 
 protocols_data = {}
 
@@ -174,8 +274,8 @@ if uploaded_files:
 
         for idx, file_name in enumerate(file_names):
             with cols[idx]:
-                st.subheader(f" {file_name}")
-                st.text_area(f"Text from {file_name}", protocols_data[file_name], height=300)
+                st.subheader(f"Protocol {idx + 1}")
+                st.text_area(f"Text from Protocol {idx + 1}", protocols_data[file_name], height=300)
                 st.metric("Word Count", len(protocols_data[file_name].split()))
 
         st.markdown("---")
@@ -209,39 +309,38 @@ if uploaded_files:
 
         st.markdown("---")
 
-        # --- Placeholder for Visualization ---
-        st.header("📊 Visualizing Protocol Flow (Mermaid.js Example)")
-        st.info("""
-        This section demonstrates how a flowchart could be generated. In a real system,
-        the Mermaid diagram code would be dynamically created by parsing your protocols
-        with sophisticated NLP to extract sequential steps and conditional logic.
-        """)
+        # # --- Placeholder for Visualization ---
+        # st.header("📊 Visualizing Protocol Flow (Mermaid.js Example)")
+        # st.info("""
+        # This section demonstrates how a flowchart could be generated. In a real system,
+        # the Mermaid diagram code would be dynamically created by parsing your protocols
+        # with sophisticated NLP to extract sequential steps and conditional logic.
+        # """)
 
-        # Example Mermaid Flowchart
-        example_mermaid_code = """
-        graph TD
-            A[Start Protocol] --> B{Check Sample Type?};
-            B -- Type A --> C(Process Sample A);
-            B -- Type B --> D(Process Sample B);
-            C --> E[Incubate at 37°C];
-            D --> E;
-            E --> F{Analyze Results?};
-            F -- Yes --> G[Generate Report];
-            F -- No --> H[Store Sample];
-            G --> I[End Protocol];
-            H --> I;
-        """
-        st.subheader("Example Protocol Flowchart (Hardcoded Mermaid)")
-        mermaid_chart(example_mermaid_code, height=400) # Use the custom component
+        # # Example Mermaid Flowchart
+        # example_mermaid_code = """
+        # graph TD
+        #     A[Start Protocol] --> B{Check Sample Type?};
+        #     B -- Type A --> C(Process Sample A);
+        #     B -- Type B --> D(Process Sample B);
+        #     C --> E[Incubate at 37°C];
+        #     D --> E;
+        #     E --> F{Analyze Results?};
+        #     F -- Yes --> G[Generate Report];
+        #     F -- No --> H[Store Sample];
+        #     G --> I[End Protocol];
+        #     H --> I;
+        # """
+        # st.subheader("Example Protocol Flowchart (Hardcoded Mermaid)")
+        # mermaid_chart(example_mermaid_code, height=400) # Use the custom component
 
-        st.markdown("---")
+        # st.markdown("---")
         
 ######### LEO Data visualization
-        st.subheader("Data graph visualization (to change!)")
-        IMGDATA = [("../mockfigures/networkgraph.png" , "Keyword graph") , 
-        ("../mockfigures/webchart.png" , "Webchart") , 
-        ("../mockfigures/decision_tree.png" , "Decision tree") ]
-
+        st.subheader("Data graph visualization")
+        IMGDATA = [("networkgraph.png", "Keyword graph"), 
+                  ("webchart.png", "Webchart"), 
+                  ("decision_tree.png", "Decision tree")]
 
         img1 = Image.open(IMGDATA[0][0])
         img2 = Image.open(IMGDATA[1][0])
