@@ -13,6 +13,9 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Initialize model globally
+model = SentenceTransformer("all-mpnet-base-v2", device='cpu')
+
 # def load_protocol(path):
 #     """Load and validate protocol JSON file."""
 #     try:
