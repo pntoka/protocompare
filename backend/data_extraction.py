@@ -10,20 +10,46 @@ You are a helpful scientific protocol information extractor.
 
 Given a protocol step, extract its structured elements into JSON based on the template provided below. There might be mltiple steps in the protocol, therefore you should return a list of JSON objects, each representing a step in the protocol.
 
-Use this format exactly:
+Use this following schema for each step exactly:
 {
-  "num": <number of the step in the sequence - int>,
-  "type": "<The main verb that describes what is being done to the input (e.g., "stir", "filter", "heat", "centrifuge", "freeze-dry", "wash", "sonicate", etc.). Use lowercase and keep it concise.>",
-  "input": "<what is being processed>",
-  "output": "<what is the result>",
-  "action": "<what action is performed>",
-  "parameters": { "param1": "value", ... }
-}
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["step_number", "step_type", "input", "output", "action", "parameter"],
+    "properties": {
+      "step_number": {
+        "type": "integer",
+        "description": "The sequential number of the step in the procedure"
+      },
+      "step_type": {
+        "type": "string",
+        "description": "Type of the step, e.g., filtration, centrifugation, heating"
+      },
+      "input": {
+        "type": "string",
+        "description": "Materials or substances used in this step"
+      },
+      "output": {
+        "type": "string",
+        "description": "Result or product obtained from this step"
+      },
+      "action": {
+        "type": "string",
+        "description": "The core operation performed, e.g., heat, filter, mix"
+      },
+      "parameter": {
+        "type": "object",
+        "description": "Key-value pairs describing step-specific parameters",
+        "additionalProperties": {
+          "type": ["string", "number", "boolean"]
+        }
+      }
+    }
+  }
 Only return the JSON. No explanations.
 """
 openai.api_key = API_KEY
 
-user_prompt =  "CQDs were synthesized by the usage of O. basilicum L. extract via a simple hydrothermal method (Fig. 1). In a typical one-step synthesizing procedure, 2.0 g of O. basilicum L. seed was added to 100 mL of distilled water and stirred at 50 °C for 2 h. Then, the obtained extract was filtered and transferred into a 100 mL Teflon-lined stainless-steel autoclave to be heated at 180 °C for 4 h. Once the autoclave was cooled naturally at room temperature and the solution was centrifuged (12,000 rpm) for 15 min, the prepared brown solution was filtered through a fine-grained 0.45 μm membrane to remove larger particles. Finally, the solution was freeze-dried to attain the dark brown powder of CQDs." 
+# user_prompt =  "CQDs were synthesized by the usage of O. basilicum L. extract via a simple hydrothermal method (Fig. 1). In a typical one-step synthesizing procedure, 2.0 g of O. basilicum L. seed was added to 100 mL of distilled water and stirred at 50 °C for 2 h. Then, the obtained extract was filtered and transferred into a 100 mL Teflon-lined stainless-steel autoclave to be heated at 180 °C for 4 h. Once the autoclave was cooled naturally at room temperature and the solution was centrifuged (12,000 rpm) for 15 min, the prepared brown solution was filtered through a fine-grained 0.45 μm membrane to remove larger particles. Finally, the solution was freeze-dried to attain the dark brown powder of CQDs." 
 
 
 def extract_json_from_response(response_text):
@@ -44,7 +70,7 @@ def extract_protocol(user_prompt):
     # Load protocol steps from the input JSON
     
 
-    output = []
+    # output = []
 
     try:
         res = client.chat.completions.create(
@@ -56,17 +82,18 @@ def extract_protocol(user_prompt):
             temperature=0
         )
         response_content = res.choices[0].message.content
-        print("Response from OpenAI:", response_content)
+        # print("Response from OpenAI:", response_content)
         parsed_json = extract_json_from_response(response_content)
-        output.append(parsed_json)
+        # output.append(parsed_json)
 
     except Exception as e:
         print(f"Error processing step: {e}")
 
+    return parsed_json
     # Save the result
-    with open("output_extracted.json", "w") as out_file:
-        json.dump(output, out_file, indent=2)
+    # with open("output_extracted.json", "w") as out_file:
+    #     json.dump(output, out_file, indent=2)
 
-    print("Extraction complete. Output saved to output_extracted.json")
+    # print("Extraction complete. Output saved to output_extracted.json")
 
-extract_protocol(user_prompt)
+# extract_protocol(user_prompt)
