@@ -207,6 +207,25 @@ uploaded_files = st.sidebar.file_uploader(
     accept_multiple_files=True
 )
 
+# Add action buttons - moved outside the uploaded_files condition
+col1, col2 = st.columns(2)
+with col1:
+    # Count PDF files
+    pdf_count = sum(1 for file in uploaded_files if file.name.lower().endswith('.pdf')) if uploaded_files else 0
+    compare_button = st.button(
+        "🔍 Compare Multiple Protocols", 
+        use_container_width=True,
+        disabled=pdf_count < 2,
+        help="Upload at least 2 PDF files to enable comparison" if pdf_count < 2 else None
+    )
+with col2:
+    search_button = st.button(
+        "🔎 Search Database", 
+        use_container_width=True,
+        disabled=pdf_count != 1,
+        help="Upload exactly 1 PDF file to enable search" if pdf_count != 1 else None
+    )
+
 #upload json file
 uploaded_file = st.sidebar.file_uploader("Choose a file (JSON)", type=["json"])
 if uploaded_file is not None:
@@ -248,26 +267,7 @@ if uploaded_files:
             except Exception as e:
                 st.sidebar.error(f"Error processing {uploaded_file.name}: {e}")
 
-    # Add action buttons after file upload
-    col1, col2 = st.columns(2)
-    with col1:
-        # Count PDF files
-        pdf_count = sum(1 for file in uploaded_files if file.name.lower().endswith('.pdf'))
-        compare_button = st.button(
-            "🔍 Compare Multiple Protocols", 
-            use_container_width=True,
-            disabled=pdf_count < 2,
-            help="Upload at least 2 PDF files to enable comparison" if pdf_count < 2 else None
-        )
-    with col2:
-        search_button = st.button(
-            "🔎 Search Database", 
-            use_container_width=True,
-            disabled=pdf_count != 1,
-            help="Upload exactly 1 PDF file to enable search" if pdf_count != 1 else None
-        )
-
-    if (compare_button and protocols_data) or (search_button and protocols_data):
+    if (compare_button and protocols_data and pdf_count >= 2) or (search_button and protocols_data and pdf_count == 1):
         st.header("Uploaded Protocols & Extracted Text")
         cols = st.columns(len(protocols_data))
         file_names = list(protocols_data.keys())
@@ -309,33 +309,7 @@ if uploaded_files:
 
         st.markdown("---")
 
-        # # --- Placeholder for Visualization ---
-        # st.header("📊 Visualizing Protocol Flow (Mermaid.js Example)")
-        # st.info("""
-        # This section demonstrates how a flowchart could be generated. In a real system,
-        # the Mermaid diagram code would be dynamically created by parsing your protocols
-        # with sophisticated NLP to extract sequential steps and conditional logic.
-        # """)
-
-        # # Example Mermaid Flowchart
-        # example_mermaid_code = """
-        # graph TD
-        #     A[Start Protocol] --> B{Check Sample Type?};
-        #     B -- Type A --> C(Process Sample A);
-        #     B -- Type B --> D(Process Sample B);
-        #     C --> E[Incubate at 37°C];
-        #     D --> E;
-        #     E --> F{Analyze Results?};
-        #     F -- Yes --> G[Generate Report];
-        #     F -- No --> H[Store Sample];
-        #     G --> I[End Protocol];
-        #     H --> I;
-        # """
-        # st.subheader("Example Protocol Flowchart (Hardcoded Mermaid)")
-        # mermaid_chart(example_mermaid_code, height=400) # Use the custom component
-
-        # st.markdown("---")
-        
+  
 ######### LEO Data visualization
         st.subheader("Data graph visualization")
         IMGDATA = [("networkgraph.png", "Keyword graph"), 
