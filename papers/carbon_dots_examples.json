@@ -1,0 +1,355 @@
+[
+    {
+        "doi": "10.1007/s10876-022-02339-x",
+        "text": "CQDs were synthesized by the usage of O. basilicum L. extract via a simple hydrothermal method (Fig. 1). In a typical one-step synthesizing procedure, 2.0 g of O. basilicum L. seed was added to 100 mL of distilled water and stirred at 50 °C for 2 h. Then, the obtained extract was filtered and transferred into a 100 mL Teflon-lined stainless-steel autoclave to be heated at 180 °C for 4 h. Once the autoclave was cooled naturally at room temperature and the solution was centrifuged (12,000 rpm) for 15 min, the prepared brown solution was filtered through a fine-grained 0.45 μm membrane to remove larger particles. Finally, the solution was freeze-dried to attain the dark brown powder of CQDs.",
+        "protocol" : [
+            {
+              "step_number": 1,
+              "step_type": "extraction",
+              "input": "2.0 g of O. basilicum L. seed, 100 mL distilled water",
+              "output": "O. basilicum L. extract",
+              "action": "stir",
+              "parameter": {
+                "temperature": "50 °C",
+                "time": "2 h"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "filtration",
+              "input": "O. basilicum L. extract",
+              "output": "Filtered extract",
+              "action": "filter",
+              "parameter": {}
+            },
+            {
+              "step_number": 3,
+              "step_type": "hydrothermal treatment",
+              "input": "Filtered extract",
+              "output": "Hydrothermally treated solution",
+              "action": "heat",
+              "parameter": {
+                "container": "100 mL Teflon-lined stainless-steel autoclave",
+                "temperature": "180 °C",
+                "time": "4 h"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "cooling",
+              "input": "Heated solution in autoclave",
+              "output": "Cooled solution",
+              "action": "cool",
+              "parameter": {
+                "method": "natural",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "centrifugation",
+              "input": "Cooled solution",
+              "output": "Centrifuged solution",
+              "action": "centrifuge",
+              "parameter": {
+                "speed": "12,000 rpm",
+                "time": "15 min"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "filtration",
+              "input": "Centrifuged solution",
+              "output": "Filtered brown solution",
+              "action": "filter",
+              "parameter": {
+                "membrane_size": "0.45 μm"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "drying",
+              "input": "Filtered brown solution",
+              "output": "Dark brown powder of CQDs",
+              "action": "freeze-dry",
+              "parameter": {}
+            }
+          ]
+    },
+    {
+        "doi": "10.1007/s13369-020-04904-w",
+        "text": "In order to perform green and simple preparation of CDs, leaves of Elettaria cardamomum were washed properly with clean water in order to remove dust and unwanted particles present on the surface of leaves. After that, leaves were shade dried. Definite amount (3 g) of dried plant was mixed with 20 mL of distilled water, then ultra-sonicated (40 kHz, Wensar) for 45 min. After ultra-sonication, the greenish brown product was centrifuged at 4500 rpm for 15 min [22]. In the end, supernatant was filtered through 0.22 µm membrane filter in order to remove larger particles. The confirmation of CDs was observed with ultraviolet visible spectrophotometer (Specord 210 plus, Analytik Jena, Germany) within the wavelength range of 200–400 nm.",
+        "protocol": [
+            {
+              "step_number": 1,
+              "step_type": "cleaning",
+              "input": "Leaves of Elettaria cardamomum",
+              "output": "Cleaned leaves",
+              "action": "wash",
+              "parameter": {
+                "solvent": "clean water"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "drying",
+              "input": "Cleaned leaves",
+              "output": "Shade-dried leaves",
+              "action": "dry",
+              "parameter": {
+                "method": "shade drying"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "mixing",
+              "input": "3 g of dried plant, 20 mL distilled water",
+              "output": "Plant-water mixture",
+              "action": "mix",
+              "parameter": {}
+            },
+            {
+              "step_number": 4,
+              "step_type": "ultrasonication",
+              "input": "Plant-water mixture",
+              "output": "Greenish brown product",
+              "action": "ultrasonicate",
+              "parameter": {
+                "frequency": "40 kHz",
+                "duration": "45 min",
+                "equipment": "Wensar"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "centrifugation",
+              "input": "Greenish brown product",
+              "output": "Separated supernatant",
+              "action": "centrifuge",
+              "parameter": {
+                "speed": "4500 rpm",
+                "time": "15 min"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "filtration",
+              "input": "Supernatant",
+              "output": "Filtered solution",
+              "action": "filter",
+              "parameter": {
+                "membrane_size": "0.22 µm"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "characterization",
+              "input": "Filtered solution",
+              "output": "UV-vis absorbance spectrum",
+              "action": "analyze",
+              "parameter": {
+                "technique": "UV-visible spectroscopy",
+                "instrument": "Specord 210 plus, Analytik Jena, Germany",
+                "wavelength_range": "200–400 nm"
+              }
+            }
+          ]
+    },
+    {
+        "doi": "10.1039/C5RA14720D",
+        "text": "The typical experimental procedure is described as follows: first, 0.1 g folic acid was added to 35 mL distilled water and dissolved at 90 °C under agitation. After 20 minutes, the obtained solution was transformed into a stainless steel autoclave with a Teflon liner with a capacity of 50 mL and heated in an oven at 180 °C for 3 h, followed by a natural cooling process to room temperature. The obtained light yellow solution was centrifuged at 12 000 rpm for 20 min to remove the agglomerated particles. After being lyophilized at −80 °C temperature, the carbon dot powder was obtained. The obtained carbon dot powder was dispersed in water for further characterization. The experimental procedure was the same when other vitamins were used as precursors to synthesize nano carbon dots.",
+        "protocol": [
+            {
+              "step_number": 1,
+              "step_type": "dissolution",
+              "input": "0.1 g folic acid, 35 mL distilled water",
+              "output": "Folic acid solution",
+              "action": "dissolve",
+              "parameter": {
+                "temperature": "90 °C",
+                "agitation": "yes",
+                "time": "20 min"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "hydrothermal treatment",
+              "input": "Folic acid solution",
+              "output": "Light yellow solution",
+              "action": "heat",
+              "parameter": {
+                "container": "50 mL Teflon-lined stainless steel autoclave",
+                "temperature": "180 °C",
+                "time": "3 h"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "cooling",
+              "input": "Heated solution",
+              "output": "Cooled solution",
+              "action": "cool",
+              "parameter": {
+                "method": "natural",
+                "temperature": "room temperature"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "centrifugation",
+              "input": "Cooled light yellow solution",
+              "output": "Supernatant (agglomerates removed)",
+              "action": "centrifuge",
+              "parameter": {
+                "speed": "12,000 rpm",
+                "time": "20 min"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "drying",
+              "input": "Centrifuged supernatant",
+              "output": "Carbon dot powder",
+              "action": "lyophilize",
+              "parameter": {
+                "temperature": "-80 °C"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "dispersion",
+              "input": "Carbon dot powder",
+              "output": "Carbon dots in aqueous solution",
+              "action": "disperse",
+              "parameter": {
+                "solvent": "water"
+              }
+            },
+            {
+              "step_number": 7,
+              "step_type": "variation",
+              "input": "Other vitamins",
+              "output": "Carbon dots from different precursors",
+              "action": "repeat",
+              "parameter": {
+                "note": "Same procedure applied to other vitamins"
+              }
+            }
+          ]
+    },
+    {
+        "doi": "10.1021/acsomega.5c01222",
+        "text": "A Q-switched Nd: YAG laser from Electro Scientific Industries emitting at a wavelength of 1064 nm was used to irradiate a bulk target made of Bi2Se3 Pellets (@99.995% from Alfa Aesar). Prior to the irradiation, the target was cleaned in an ultrasonic bath made of acetone for 15 min. The target was then placed inside a 50 mL single-neck glass flask and covered by 5 mL of acetone (@99.99% purity from Thermo Fisher Scientific). The laser beam was shined onto a flat mirror, inclined at 45° with respect to the laser rail, and then focused on the surface of the target by using a biconvex lens having a focal length of 167 mm. The lens was located between the mirror and the flask. The power of the laser was 13 W with an energy per pulse of 13 mJ at 1 kHz. The average spot size of the laser beam was measured to be around ∼96 ± 12 μm. Consequently, the fluence was calculated to be around ∼179 ± 31 J cm–2. Finally, the target was irradiated for 5 min. Immediately, after synthesis, the colloid was centrifuged for 60 s at 13,250 rcf (corresponding to 13,000 rpm) to remove possible chunk and debris from the bulk target. Finally, the colloid was stored in a 10 mL opaque microtube to protect the colloid from contamination and evaporation.",
+        "protocol":  [
+            {
+              "step_number": 1,
+              "step_type": "cleaning",
+              "input": "Bi2Se3 pellet",
+              "output": "Cleaned Bi2Se3 pellet",
+              "action": "ultrasonic cleaning",
+              "parameter": {
+                "solvent": "acetone",
+                "duration": "15 min"
+              }
+            },
+            {
+              "step_number": 2,
+              "step_type": "setup",
+              "input": "Cleaned Bi2Se3 pellet, 5 mL acetone",
+              "output": "Prepared flask with target in solvent",
+              "action": "place in flask",
+              "parameter": {
+                "flask_volume": "50 mL",
+                "solvent_purity": "99.99%",
+                "solvent": "acetone"
+              }
+            },
+            {
+              "step_number": 3,
+              "step_type": "optical alignment",
+              "input": "Nd:YAG laser, mirror, lens",
+              "output": "Focused laser beam on target",
+              "action": "align and focus",
+              "parameter": {
+                "laser_wavelength": "1064 nm",
+                "mirror_angle": "45°",
+                "lens_type": "biconvex",
+                "focal_length": "167 mm"
+              }
+            },
+            {
+              "step_number": 4,
+              "step_type": "irradiation",
+              "input": "Target in acetone under focused laser beam",
+              "output": "Colloidal solution",
+              "action": "irradiate",
+              "parameter": {
+                "laser_power": "13 W",
+                "pulse_energy": "13 mJ",
+                "pulse_rate": "1 kHz",
+                "spot_size": "96 ± 12 μm",
+                "fluence": "179 ± 31 J/cm²",
+                "duration": "5 min"
+              }
+            },
+            {
+              "step_number": 5,
+              "step_type": "centrifugation",
+              "input": "Colloidal solution",
+              "output": "Purified colloid",
+              "action": "centrifuge",
+              "parameter": {
+                "time": "60 s",
+                "rcf": "13,250",
+                "rpm": "13,000"
+              }
+            },
+            {
+              "step_number": 6,
+              "step_type": "storage",
+              "input": "Purified colloid",
+              "output": "Colloid stored in opaque microtube",
+              "action": "store",
+              "parameter": {
+                "container": "10 mL opaque microtube",
+                "conditions": "protected from contamination and evaporation"
+              }
+            }
+          ]
+    },
+    {
+        "doi": "10.1039/C8AY01385C",
+        "text": "Carbon dots were synthesized through a simple one-pot hydrothermal method as follows: ammonium citrate (0.40 g) and ammonium thiocyanate (0.19 g) were dissolved in ultrapure water (15 mL) to form a clear solution. Then, the mixed solution was transferred to a Teflon-lined stainless steel autoclave and heated at 160 °C for 6 h. After the reaction was completed, the autoclave was cooled to room temperature naturally. The resulting solution was centrifuged for 10 minutes at 4000 rpm, and the supernatant was taken. The yellow supernatant was subjected to dialysis using a dialysis bag (3500 Da) for 24 h to remove small amount of residues that did not take part in the reaction. Finally, the carbon dot solution was stored at 4 °C in a refrigerator for further use.",
+        "protocol" : []
+    },
+    {
+        "doi": "10.1021/acsomega.2c02911",
+        "text": "L-HCl-based carbon dots were synthesized using the hydrothermal method under variable conditions starting from different precursor concentrations. 2.5 and 5 mg/mL stock aqueous solutions of L-HCl were prepared by dissolving, respectively, 250 and 500 mg of compound into 100 mL of deionized water. The mixtures were subjected to a rotary-shaker until clear colorless solutions were obtained. Each of the solutions was then placed inside a hot air oven after separately taken and transferred to a teflon-lined steel autoclave reactor of 50 mL capacity. With the 2.5 mg/mL stock, two CDs were prepared at 200 °C with different treatment durations─one for 24 h, and the other for 10 h. The 5 mg/mL stock, on the other hand, was subjected to hydrothermal treatment for three different temperature–duration pairs: (200 °C, 10 h), (200 °C, 24 h), and (180 °C, 24 h). Certain portions of the stock solutions were kept aside for experiments as reference compound and for comparison. After the solution went through their respective stipulated treatments, the autoclave was taken out of the oven and was allowed to cool down at room temperature. The resulting clear solutions showed different shades of yellow. The change of color acted as an indicator for the formation of the CDs. The color changed the least for the treatment at 180 °C. Each sample was passed through sterilized 0.2 μm chromatography filter to ensure the removal of all suspended large particles. The CD solutions showed blue to cyan characteristic fluorescence upon subjecting to UV light.",
+        "protocol" : []
+    },
+    {
+        "doi": "10.1021/acsomega.4c02254",
+        "text": "CQDs’ synthesis was performed according to previous works (16,43) with slight modification. A desired mass of AC was carefully weighed using an analytical electronic balance (Ohaus CV314C) and transferred to a beaker glass. Two hundred milliliters of ultrapure water was added, and the AC suspension was stirred at 1500 rpm for 30 min using a magnetic stirrer (JoanLab SH-2, China) and transferred to a conical flask. It was then irradiated under microwave power for 3–7 min. The resulting pale brown mixture was centrifuged at 3500 rpm for 30 min to remove impurities; the supernatant was then filtered using filter paper (Whatman, No. 40) and further purified using a 0.22 μm nylon filter syringe. The pure CQDs were then dried using an oven until solid brownish CQDs were obtained.",
+        "protocol": []
+    },
+    {
+        "doi": "10.1016/j.mseb.2019.02.014",
+        "text": "Carbon dots were prepared by microwave assisted synthesis as per procedure provided by Milosavljevic et al. [24] with a little modification. In brief, 0.2 g of GG was dispersed in 20 mL of distilled water under normal stirring for 2 h to ensure its complete dissolution. Now, the solution was placed in the microwave oven (LG, model No. CE1041DFB, USA) and heated till the volume decreased to one fifth along with the color change from transparent to yellowish-red. The optimization of the reaction time in the microwave-assisted heating was also performed. The results indicated that it took almost 25–30 min to prepare carbon dots. It is worth mentioning here that the solution was exposed to microwaves only for 30 s and then allowed to stand for 5 min to avoid overheating. In all, five to six exposures were required for synthesis of CDs. Finally, the solution was cooled down to room temperature and then 30 mL of distilled water was added under moderate stirring. The brownish-yellow dark solution was centrifuged (Remi, India) for 15 min with revolution speed of 50,000 rpm. The pale yellow supernatant was collected in test tubes, covered with aluminum foils and kept in dark chamber for further use.",
+        "protocol": []
+    },
+    {
+        "doi": "10.1016/j.physb.2023.414703",
+        "text": "We have synthesized OFCDs by hydrothermal method (Scheme 1). Briefly, 0.1g of semicarbazide and 40 mg of o-phenylenediamine were dissolved in 20 mL of double distilled water and then the mixture was transferred into Teflon lined stainless steel autoclave which was kept in the muffle furnace at 180 °C for 12 h with the temperature rise of 4 °C/min. After this step, autoclave allowed cooling to room temperature. Then, the obtained solution was centrifuged at 4000 rpm for 10 min. Subsequently, the centrifuged solution was filtered by 0.22 μm syringe filter. The resultant solution was stored in a refrigerator.",
+        "protocol": []
+    },
+    {
+        "doi": "10.1002/chir.23509",
+        "text": "L-/D-Cys-derived CDots were synthesized by a one-step hydrothermal method. Briefly, 0.1 g of L- or D-Cys was sufficiently dissolved in 10 ml of water. Then, this solution was transferred to a 50-ml Teflon-sealed autoclave and heated at (i) 100/150/200/250°C for 4 h and (ii) 150°C for 1–20 h. If needed, the pH of the resulting solutions was adjusted to 7 using 0.1 M NaOH. Then, solutions were purified by passing through a 0.22-μm filter membrane (see Figure S1) and dialysing against deionized water in a 1-kDa dialysis bag for 24 h. The pH of the NP dispersion after dialysis was found to be neutral, or the same pH as Millipore water, which means that unreacted cysteine and ultra-small molecular aggregates were removed. Also, all the samples were of 10 ml of volume, whereas the dialysis tank was 500 ml, which was also stirred to make the system homogenous. Thus, decreasing the concentration of solutes in about 50 times ensures better purification. As a result of hydrothermal synthesis and a further two-step purification procedure, ~10 mg of product was produced per 10 ml of purified solution.",
+        "protocol": []
+    },
+    {
+        "doi": "10.1038/s41377-022-00798-5",
+        "text": "CDs were prepared from citric acid (2 g) and urea (4 g) by solvothermal treatment in four different solvents (20 mL) at 160 °C 4 h in a Wattcas autoclave (WP-MSAR-250A). The CDs prepared in four solvents, AcOH, DMK, DMF and FA, are named AcOH-CDs, DMK-CDs, DMF-CDs and FA-CDs, respectively. In detail, the obtained dark brown solutions after solvothermal treatment in AcOH and DMK were packed into dialysis bags (cut-off molecular weight 2000) and dialyzed with ultra-pure water for two days to obtain AcOH-CDs and DMK-CDs, respectively. The obtained dark red-brown solutions after solvothermal treatment in DMF and FA were mixed with 40 mL ethanol, shaken well, and then centrifuged at 10,000 r min−1 for 5 min and repeated 2–3 times. The precipitates were freeze-dried to obtain the black product of DMF-CDs and FA-CDs, respectively.",
+        "protocol": []
+    }
+]
