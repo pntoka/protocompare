@@ -56,7 +56,6 @@ def extract_protocol(user_prompt):
             temperature=0
         )
         response_content = res.choices[0].message.content
-        print("Response from OpenAI:", response_content)
         parsed_json = extract_json_from_response(response_content)
         output.append(parsed_json)
 
