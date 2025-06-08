@@ -8,6 +8,13 @@ from PIL import Image
 import base64
 import requests
 import json
+import plotly.graph_objects as go # Import Plotly for the radar chart
+import plotly.express as px
+from backend.data_extraction import extract_protocol, make_pretty_procedure
+from backend.vectorized import make_protocol_vector
+from backend.compare import compare
+from utils import get_database_dir_path
+import numpy as np
 
 def unpack_json_protocol_list(json_file_content):
     protocol_titles = []
@@ -176,6 +183,41 @@ def convert_mermaid_to_pdf(mermaid_code: str) -> bytes:
     """
     return convert_mermaid_to_image(mermaid_code, format="pdf")
 
+# --- Function to generate a dynamic spider chart (using Plotly) ---
+def create_spider_chart(protocol_scores: dict, chart_title: str = "Protocol Characteristics"):
+    """
+    Generates an interactive spider/radar chart using Plotly.
+    protocol_scores: A dictionary where keys are categories/parameters (e.g., "Efficiency")
+                     and values are their scores (e.g., 1-10).
+    """
+    if not protocol_scores:
+        st.warning("No data provided for the spider chart.")
+        return
+
+    categories = list(protocol_scores.keys())
+    values = list(protocol_scores.values())
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatterpolar(
+        r=values,
+        theta=categories,
+        fill='toself',
+        name='Protocol Score'
+    ))
+
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, max(values) + 1] # Adjust range based on max value for better scaling
+            )),
+        showlegend=False,
+        title_text=chart_title,
+        title_x=0.5, # Center the title
+        title_font_size=20
+    ) 
+    st.plotly_chart(fig, use_container_width=True)
 
 # --- Main Streamlit Application ---
 st.title("🔬 Protocompare")
@@ -201,6 +243,8 @@ st.sidebar.markdown(
 )
 
 st.sidebar.header("Upload Protocols")
+
+# File uploader
 uploaded_files = st.sidebar.file_uploader(
     "Upload multiple protocol documents (TXT, PDF, DOCX)",
     type=["txt", "pdf", "docx"],
@@ -211,37 +255,37 @@ uploaded_files = st.sidebar.file_uploader(
 col1, col2 = st.columns(2)
 with col1:
     # Count PDF files
-    pdf_count = sum(1 for file in uploaded_files if file.name.lower().endswith('.pdf')) if uploaded_files else 0
+    txt_count = sum(1 for file in uploaded_files if file.name.lower().endswith('.txt')) if uploaded_files else 0
     compare_button = st.button(
         "🔍 Compare Multiple Protocols", 
         use_container_width=True,
-        disabled=pdf_count < 2,
-        help="Upload at least 2 PDF files to enable comparison" if pdf_count < 2 else None
+        disabled=txt_count < 2,
+        help="Upload at least 2 PDF files to enable comparison" if txt_count < 2 else None
     )
 with col2:
     search_button = st.button(
         "🔎 Search Database", 
         use_container_width=True,
-        disabled=pdf_count != 1,
-        help="Upload exactly 1 PDF file to enable search" if pdf_count != 1 else None
+        disabled=txt_count != 1,
+        help="Upload exactly 1 PDF file to enable search" if txt_count != 1 else None
     )
 
 #upload json file
-uploaded_file = st.sidebar.file_uploader("Choose a file (JSON)", type=["json"])
-if uploaded_file is not None:
-    # To read file as bytes:
-    bytes_data = uploaded_file.getvalue()
-    #st.write(bytes_data)
+# uploaded_file = st.sidebar.file_uploader("Choose a file (JSON)", type=["json"])
+# if uploaded_file is not None:
+#     # To read file as bytes:
+#     bytes_data = uploaded_file.getvalue()
+#     #st.write(bytes_data)
 
-    # To convert to a string based IO:
-    stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-    stringio_to_json = json.loads(bytes_data)
-    protocol_step_list, protocol_titles = unpack_json_protocol_list(stringio_to_json)
-    protocol_index = 0
-    for protocol_title in protocol_titles:
-        st.write("Protocol: " + protocol_title)
-        st.dataframe(protocol_step_list[protocol_index], hide_index=True)
-        protocol_index = protocol_index + 1
+#     # To convert to a string based IO:
+#     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+#     stringio_to_json = json.loads(bytes_data)
+#     protocol_step_list, protocol_titles = unpack_json_protocol_list(stringio_to_json)
+#     protocol_index = 0
+#     for protocol_title in protocol_titles:
+#         st.write("Protocol: " + protocol_title)
+#         st.dataframe(protocol_step_list[protocol_index], hide_index=True)
+#         protocol_index = protocol_index + 1
 
 protocols_data = {}
 
@@ -262,12 +306,13 @@ if uploaded_files:
                     st.warning(f"Unsupported file type for {uploaded_file.name}: {file_extension}. Skipping.")
                     continue
 
-                protocols_data[uploaded_file.name] = extracted_text
+                extracted_protocol = extract_protocol(extracted_text)
+                protocols_data[uploaded_file.name] = extracted_protocol
                 st.sidebar.success(f"Successfully extracted text from {uploaded_file.name}")
             except Exception as e:
                 st.sidebar.error(f"Error processing {uploaded_file.name}: {e}")
 
-    if (compare_button and protocols_data and pdf_count >= 2) or (search_button and protocols_data and pdf_count == 1):
+    if (compare_button and protocols_data and txt_count >= 2) or (search_button and protocols_data and txt_count == 1):
         st.header("Uploaded Protocols & Extracted Text")
         cols = st.columns(len(protocols_data))
         file_names = list(protocols_data.keys())
@@ -275,95 +320,146 @@ if uploaded_files:
         for idx, file_name in enumerate(file_names):
             with cols[idx]:
                 st.subheader(f"Protocol {idx + 1}")
-                st.text_area(f"Text from Protocol {idx + 1}", protocols_data[file_name], height=300)
-                st.metric("Word Count", len(protocols_data[file_name].split()))
+                pretty_procedure = make_pretty_procedure(protocols_data[file_name])
+                st.text_area(f"Text from Protocol {idx + 1}", pretty_procedure, height=300)
+                # st.metric("Word Count", len(protocols_data[file_name].split()))
 
         st.markdown("---")
 
         # --- Placeholder for Comparison Logic ---
         st.header("🔍 Protocol Analysis")
         st.info("""
-        **Note:** In a full implementation, advanced Natural Language Processing (NLP) models
-        would analyze the extracted text from each protocol to:
+        **Note:** Analysis with multi-step language processing from protocols to:
         - Identify common steps and unique procedures.
-        - Extract specific parameters (e.g., temperatures, concentrations, durations).
+        - Extract specific parameters.
         - Determine semantic similarities and differences between protocols.
         """)
 
+        st.subheader("Similarity Indicator")
+        # Very basic placeholder for text similarity (e.g., Jaccard similarity on words)
+        # This is NOT robust NLP but demonstrates the concept.
         if compare_button and len(protocols_data) >= 2:
-            st.subheader("Simple Similarity Indicator (Placeholder)")
-            # Very basic placeholder for text similarity (e.g., Jaccard similarity on words)
-            # This is NOT robust NLP but demonstrates the concept.
             text1 = protocols_data[file_names[0]]
             text2 = protocols_data[file_names[1]]
 
-            words1 = set(text1.lower().split())
-            words2 = set(text2.lower().split())
+            # words1 = set(text1.lower().split())
+            # words2 = set(text2.lower().split())
 
-            intersection = len(words1.intersection(words2))
-            union = len(words1.union(words2))
-            jaccard_similarity = intersection / union if union else 0
-
-            st.write(f"**Jaccard Word Similarity between '{file_names[0]}' and '{file_names[1]}':** {jaccard_similarity:.2f}")
+            # intersection = len(words1.intersection(words2))
+            # union = len(words1.union(words2))
+            # jaccard_similarity = intersection / union if union else 
+            embedding1 = make_protocol_vector(text1).cpu().numpy()
+            embedding2 = make_protocol_vector(text2).cpu().numpy()
+            jaccard_similarity,_,_ = compare(embedding1, embedding2)
+            
+            st.write(f"**Cosine Word Similarity between '{file_names[0]}' and '{file_names[1]}'is :** {jaccard_similarity:.2f}")
             st.progress(jaccard_similarity, text=f"Similarity: {jaccard_similarity:.0%}")
+        elif search_button and len(protocols_data) == 1:
+            # For search database, compare with a reference protocol or show similarity to database
+            text1 = protocols_data[file_names[0]]
+            embedding1 = make_protocol_vector(text1).cpu().numpy()
 
+            with open(get_database_dir_path(), 'database.json', 'r', encoding='utf-8') as f:
+                database_content = json.load(f)
+
+            similarity_scores = []
+
+            for i,entry in enumerate(database_content):
+                emb2 = np.array(entry['embedded_protocol'])
+                jaccard_similarity,_,_ = compare(embedding1, emb2)
+                similarity_scores.append((entry['doi'], jaccard_similarity))
+            highest_similarity = max(similarity_scores, key=lambda x: x[1])
+            best_text = make_pretty_procedure(database_content[highest_similarity[0]]['protocol'])
+            st.write(f"**Highest Similarity with Database Reference:** ({highest_similarity[1]:.2f}), with the following protocol: {best_text} ")
+    
+            # # Example reference text (in a real implementation, this would come from your database)
+            # reference_text = "This is a reference protocol text for comparison purposes."
+            
+            # # words1 = set(text1.lower().split())
+            # # words2 = set(reference_text.lower().split())
+
+            # # intersection = len(words1.intersection(words2))
+            # # union = len(words1.union(words2))
+            # # jaccard_similarity = intersection / union if union else 0
+
+            # embedding1 = make_protocol_vector(text1).cpu().numpy()
+            # embedding2 = make_protocol_vector(text2).cpu().numpy()
+            # jaccard_similarity,_,_ = compare(embedding1, embedding2)
+
+            # st.write(f"**Jaccard Word Similarity with Database Reference:** {jaccard_similarity:.2f}")
+            # st.progress(jaccard_similarity, text=f"Similarity: {jaccard_similarity:.0%}")
         st.markdown("---")
 
-  
-######### LEO Data visualization
-        st.subheader("Data graph visualization")
-        IMGDATA = [("networkgraph.png", "Keyword graph"), 
-                  ("webchart.png", "Webchart"), 
-                  ("decision_tree.png", "Decision tree")]
-
-        img1 = Image.open(IMGDATA[0][0])
-        img2 = Image.open(IMGDATA[1][0])
-        img3 = Image.open(IMGDATA[2][0])
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.image(img1, caption=IMGDATA[0][1], use_container_width=True)
-
-        with col2:
-            st.image(img2, caption=IMGDATA[1][1], use_container_width=True)
-
-        with col3:
-            st.image(img3, caption=IMGDATA[2][1], use_container_width=True)
-
-
-
-
-        # Download section
-        st.subheader("Download")
-        col1, col2 = st.columns(2)
+##Elliot snake data visualization
+# --- Dynamic Spider Chart Section ---
+        st.header("🎯 Protocol Profile Radar Chart")
+        st.info("""
+        This radar chart conceptually visualizes key characteristics of the uploaded protocols.""")
         
-        try:
-            with col1:
-                png_data = convert_mermaid_to_image(example_mermaid_code)
-                st.download_button(
-                    label="Download as PNG",
-                    data=png_data,
-                    file_name="protocol_flowchart.png",
-                    mime="image/png",
-                    help="Download the flowchart as a PNG image"
-                )
-                
-            with col2:
-                pdf_data = convert_mermaid_to_pdf(example_mermaid_code)
-                st.download_button(
-                    label="Download as PDF",
-                    data=pdf_data,
-                    file_name="protocol_flowchart.pdf",
-                    mime="application/pdf",
-                    help="Download the flowchart as a PDF document"
-                )
-        except Exception as e:
-            st.error(f"Error generating downloads: {str(e)}")
+        # --- Mock Data for Spider Chart ---
+        # This data would come from your NLP backend after processing protocols.
+        # Example 1: Single Protocol Characteristics
+        if len(protocols_data) == 1:
+            mock_protocol_1_scores = {
+                "Efficiency": 8,
+                "Reproducibility": 7,
+                "Cost-effectiveness": 6,
+                "Complexity": 5,
+                "Safety": 9
+            }
+            create_spider_chart(mock_protocol_1_scores, f"Characteristics of {file_names[0]}")
+            st.caption("Above: Hypothetical characteristics for the single uploaded protocol.")
+
+        # Example 2: Comparing Two Protocols
+        elif len(protocols_data) >= 2:
+            mock_protocol_1_scores = {
+                "Efficiency": 8,
+                "Reproducibility": 7,
+                "Cost-effectiveness": 6,
+                "Complexity": 5,
+                "Safety": 9
+            }
+            mock_protocol_2_scores = {
+                "Efficiency": 6,
+                "Reproducibility": 9,
+                "Cost-effectiveness": 7,
+                "Complexity": 8,
+                "Safety": 7
+            }
+            
+            fig = go.Figure()
+            fig.add_trace(go.Scatterpolar(
+                r=list(mock_protocol_1_scores.values()),
+                theta=list(mock_protocol_1_scores.keys()),
+                fill='toself',
+                name=f"{file_names[0]} Scores"
+            ))
+            fig.add_trace(go.Scatterpolar(
+                r=list(mock_protocol_2_scores.values()),
+                theta=list(mock_protocol_2_scores.keys()),
+                fill='toself',
+                name=f"{file_names[1]} Scores"
+            ))
+
+            fig.update_layout(
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True,
+                        range=[0, 10] # Assuming scores are 0-10
+                    )),
+                showlegend=True,
+                title_text="Comparative Protocol Characteristics",
+                title_x=0.5,
+                title_font_size=20
+            )
+            st.plotly_chart(fig, use_container_width=True)
+            st.caption(f"Above: Hypothetical comparative characteristics for {file_names[0]} vs {file_names[1]}.")
+
+        else:
+            st.write("Upload protocols to see characteristic visualization here.")
 
         st.markdown("---")
         st.write("Developed by Anthony, Guglielmo, Filip, Piotr, Leonardo, Gururaj, Elliot and Miranda with ❤️ Streamlit")
 
 else:
     st.info("Upload protocol documents in the sidebar to begin comparison.")
- 
