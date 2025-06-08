@@ -102,3 +102,9 @@ def extract_and_format_steps(protocol_json):
 def embed_formatted_steps(formatted_steps):
     """Return tensor of embeddings for each step string."""
     return model.encode(formatted_steps, convert_to_tensor=True)
+
+def make_protocol_vector(input_json):
+    """Take in protocol as a json (list of dicts) and return array with embedding"""
+    steps = extract_and_format_steps(input_json)
+    embed_vector = embed_formatted_steps(steps)
+    return embed_vector
