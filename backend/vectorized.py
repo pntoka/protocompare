@@ -1,17 +1,17 @@
 # === Step 1: Load and Parse JSON Protocols ===
-import json
-import os
+# import json
+# import os
 from sentence_transformers import SentenceTransformer
-import torch
-from sklearn.metrics.pairwise import cosine_similarity
-from scipy.optimize import linear_sum_assignment
-import numpy as np
-import pandas as pd
-from itertools import combinations
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import torch
+# from sklearn.metrics.pairwise import cosine_similarity
+# from scipy.optimize import linear_sum_assignment
+# import numpy as np
+# import pandas as pd
+# from itertools import combinations
+# from sklearn.decomposition import PCA
+# from sklearn.manifold import TSNE
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 
 # Initialize model globally
 model = SentenceTransformer("all-mpnet-base-v2", device='cpu')
@@ -73,32 +73,16 @@ def format_step(step, step_number=None):
     else:
         return str(step).lower()
 
-def extract_and_format_steps(protocol_json):
+def extract_and_format_steps(protocol_steps):
     """Extract and format steps from various JSON structures."""
     steps = []
     
     # Handle list of protocols
-    if isinstance(protocol_json, list):
-        # Each item in the list is a protocol
-        for protocol in protocol_json:
-            if isinstance(protocol, dict) and "protocol" in protocol:
-                # Extract steps from the protocol field
-                protocol_steps = protocol["protocol"]
-                if isinstance(protocol_steps, list):
-                    for step in protocol_steps:
-                        formatted_step = format_step(step)
-                        if formatted_step:
-                            steps.append(formatted_step)
-    
-    # Handle single protocol
-    elif isinstance(protocol_json, dict):
-        if "protocol" in protocol_json:
-            protocol_steps = protocol_json["protocol"]
-            if isinstance(protocol_steps, list):
-                for step in protocol_steps:
-                    formatted_step = format_step(step)
-                    if formatted_step:
-                        steps.append(formatted_step)
+    if isinstance(protocol_steps, list):
+        for step in protocol_steps:
+            formatted_step = format_step(step)
+            if formatted_step:
+                steps.append(formatted_step)
     
     return steps
 
