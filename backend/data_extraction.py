@@ -1,7 +1,7 @@
 import json
 import openai
-import os
 from openai import OpenAI
+import re
 
 API_KEY = ""
 # Static system prompt for consistent instructions
@@ -23,8 +23,19 @@ Only return the JSON. No explanations.
 """
 openai.api_key = API_KEY
 
-# user_prompt =  "CQDs were synthesized by the usage of O. basilicum L. extract via a simple hydrothermal method (Fig. 1). In a typical one-step synthesizing procedure, 2.0 g of O. basilicum L. seed was added to 100 mL of distilled water and stirred at 50 °C for 2 h. Then, the obtained extract was filtered and transferred into a 100 mL Teflon-lined stainless-steel autoclave to be heated at 180 °C for 4 h. Once the autoclave was cooled naturally at room temperature and the solution was centrifuged (12,000 rpm) for 15 min, the prepared brown solution was filtered through a fine-grained 0.45 μm membrane to remove larger particles. Finally, the solution was freeze-dried to attain the dark brown powder of CQDs." 
+user_prompt =  "CQDs were synthesized by the usage of O. basilicum L. extract via a simple hydrothermal method (Fig. 1). In a typical one-step synthesizing procedure, 2.0 g of O. basilicum L. seed was added to 100 mL of distilled water and stirred at 50 °C for 2 h. Then, the obtained extract was filtered and transferred into a 100 mL Teflon-lined stainless-steel autoclave to be heated at 180 °C for 4 h. Once the autoclave was cooled naturally at room temperature and the solution was centrifuged (12,000 rpm) for 15 min, the prepared brown solution was filtered through a fine-grained 0.45 μm membrane to remove larger particles. Finally, the solution was freeze-dried to attain the dark brown powder of CQDs." 
 
+
+def extract_json_from_response(response_text):
+    # Remove markdown code block wrappers like ```json ... ```
+    json_match = re.search(r"```json\s*(\[\s*{.*}\s*\])\s*```", response_text, re.DOTALL)
+    if json_match:
+        json_str = json_match.group(1)
+        return json.loads(json_str)
+    else:
+        # If no code block found, try parsing whole text directly
+        return json.loads(response_text)
+    
 def extract_protocol(user_prompt):
     # Load OpenAI API key
     
@@ -46,7 +57,7 @@ def extract_protocol(user_prompt):
         )
         response_content = res.choices[0].message.content
         print("Response from OpenAI:", response_content)
-        parsed_json = json.loads(response_content)
+        parsed_json = extract_json_from_response(response_content)
         output.append(parsed_json)
 
     except Exception as e:
