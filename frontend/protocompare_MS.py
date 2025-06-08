@@ -100,6 +100,7 @@ st.markdown("""
 Welcome to the *in silico* Protocol Comparator! Upload your research protocols to compare their content, steps, and key parameters.
 This tool is designed to help you streamline protocol analysis and identify differences or commonalities efficiently.
 """)
+
 # Load and convert image to base64
 logo_path = "logo.png"
 with open(logo_path, "rb") as f:
@@ -122,13 +123,6 @@ uploaded_files = st.sidebar.file_uploader(
     type=["txt", "pdf", "docx"],
     accept_multiple_files=True
 )
-
-# Load the image
-logo = Image.open("logo.png")
-
-# Add spacer using empty containers (Streamlit method)
-st.sidebar.markdown("---")
-st.sidebar.write("")  # Optional spacing
 
 protocols_data = {}
 
@@ -154,7 +148,26 @@ if uploaded_files:
             except Exception as e:
                 st.sidebar.error(f"Error processing {uploaded_file.name}: {e}")
 
-    if protocols_data:
+    # Add action buttons after file upload
+    col1, col2 = st.columns(2)
+    with col1:
+        # Count PDF files
+        pdf_count = sum(1 for file in uploaded_files if file.name.lower().endswith('.pdf'))
+        compare_button = st.button(
+            "🔍 Compare Multiple Protocols", 
+            use_container_width=True,
+            disabled=pdf_count < 2,
+            help="Upload at least 2 PDF files to enable comparison" if pdf_count < 2 else None
+        )
+    with col2:
+        search_button = st.button(
+            "🔎 Search Database", 
+            use_container_width=True,
+            disabled=pdf_count != 1,
+            help="Upload exactly 1 PDF file to enable search" if pdf_count != 1 else None
+        )
+
+    if (compare_button and protocols_data) or (search_button and protocols_data):
         st.header("Uploaded Protocols & Extracted Text")
         cols = st.columns(len(protocols_data))
         file_names = list(protocols_data.keys())
@@ -168,7 +181,7 @@ if uploaded_files:
         st.markdown("---")
 
         # --- Placeholder for Comparison Logic ---
-        st.header("🔍 Protocol Comparison (Conceptual)")
+        st.header("🔍 Protocol Analysis")
         st.info("""
         **Note:** In a full implementation, advanced Natural Language Processing (NLP) models
         would analyze the extracted text from each protocol to:
@@ -177,7 +190,7 @@ if uploaded_files:
         - Determine semantic similarities and differences between protocols.
         """)
 
-        if len(protocols_data) >= 2:
+        if compare_button and len(protocols_data) >= 2:
             st.subheader("Simple Similarity Indicator (Placeholder)")
             # Very basic placeholder for text similarity (e.g., Jaccard similarity on words)
             # This is NOT robust NLP but demonstrates the concept.
@@ -223,6 +236,31 @@ if uploaded_files:
 
         st.markdown("---")
         
+######### LEO Data visualization
+        st.subheader("Data graph visualization (to change!)")
+        IMGDATA = [("../mockfigures/networkgraph.png" , "Keyword graph") , 
+        ("../mockfigures/webchart.png" , "Webchart") , 
+        ("../mockfigures/decision_tree.png" , "Decision tree") ]
+
+
+        img1 = Image.open(IMGDATA[0][0])
+        img2 = Image.open(IMGDATA[1][0])
+        img3 = Image.open(IMGDATA[2][0])
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.image(img1, caption=IMGDATA[0][1], use_container_width=True)
+
+        with col2:
+            st.image(img2, caption=IMGDATA[1][1], use_container_width=True)
+
+        with col3:
+            st.image(img3, caption=IMGDATA[2][1], use_container_width=True)
+
+
+
+
         # Download section
         st.subheader("Download")
         col1, col2 = st.columns(2)
