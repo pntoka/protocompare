@@ -236,6 +236,31 @@ if uploaded_files:
 
         st.markdown("---")
         
+######### LEO Data visualization
+        st.subheader("Data graph visualization (to change!)")
+        IMGDATA = [("../mockfigures/networkgraph.png" , "Keyword graph") , 
+        ("../mockfigures/webchart.png" , "Webchart") , 
+        ("../mockfigures/decision_tree.png" , "Decision tree") ]
+
+
+        img1 = Image.open(IMGDATA[0][0])
+        img2 = Image.open(IMGDATA[1][0])
+        img3 = Image.open(IMGDATA[2][0])
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.image(img1, caption=IMGDATA[0][1], use_container_width=True)
+
+        with col2:
+            st.image(img2, caption=IMGDATA[1][1], use_container_width=True)
+
+        with col3:
+            st.image(img3, caption=IMGDATA[2][1], use_container_width=True)
+
+
+
+
         # Download section
         st.subheader("Download")
         col1, col2 = st.columns(2)
