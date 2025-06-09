@@ -359,35 +359,20 @@ if uploaded_files:
             text1 = protocols_data[file_names[0]]
             embedding1 = make_protocol_vector(text1).cpu().numpy()
 
-            with open(get_database_dir_path(), 'database.json', 'r', encoding='utf-8') as f:
+            with open(os.path.join(get_database_dir_path(), 'database.json'), 'r', encoding='utf-8') as f:
                 database_content = json.load(f)
 
             similarity_scores = []
-
-            for i,entry in enumerate(database_content):
+            for entry in database_content:
                 emb2 = np.array(entry['embedded_protocol'])
                 jaccard_similarity,_,_ = compare(embedding1, emb2)
-                similarity_scores.append((entry['doi'], jaccard_similarity))
-            highest_similarity = max(similarity_scores, key=lambda x: x[1])
-            best_text = make_pretty_procedure(database_content[highest_similarity[0]]['protocol'])
-            st.write(f"**Highest Similarity with Database Reference:** ({highest_similarity[1]:.2f}), with the following protocol: {best_text} ")
-    
-            # # Example reference text (in a real implementation, this would come from your database)
-            # reference_text = "This is a reference protocol text for comparison purposes."
+                similarity_scores.append((entry['protocol'], jaccard_similarity))
             
-            # # words1 = set(text1.lower().split())
-            # # words2 = set(reference_text.lower().split())
-
-            # # intersection = len(words1.intersection(words2))
-            # # union = len(words1.union(words2))
-            # # jaccard_similarity = intersection / union if union else 0
-
-            # embedding1 = make_protocol_vector(text1).cpu().numpy()
-            # embedding2 = make_protocol_vector(text2).cpu().numpy()
-            # jaccard_similarity,_,_ = compare(embedding1, embedding2)
-
-            # st.write(f"**Jaccard Word Similarity with Database Reference:** {jaccard_similarity:.2f}")
-            # st.progress(jaccard_similarity, text=f"Similarity: {jaccard_similarity:.0%}")
+            highest_similarity = max(similarity_scores, key=lambda x: x[1])
+            # best_match_index = find_database_index_by_doi(database_content, highest_similarity[0])
+            # if best_match_index is not None:
+            best_text = make_pretty_procedure(highest_similarity[0])
+            st.write(f"**Highest Similarity with Database Reference:** ({highest_similarity[1]:.2f}), with the following protocol: {best_text}")
         st.markdown("---")
 
 ##Elliot snake data visualization
@@ -463,3 +448,9 @@ if uploaded_files:
 
 else:
     st.info("Upload protocol documents in the sidebar to begin comparison.")
+
+def find_database_index_by_doi(database_content, doi):
+    for i, entry in enumerate(database_content):
+        if entry['doi'] == doi:
+            return i
+    return None
